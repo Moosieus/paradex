@@ -2,19 +2,11 @@
 
 Ecto fragments for [ParadeDB](https://www.paradedb.com/), currently under active development.
 
-## Todo
-
-- [ ] Implement full suite of tests
-- [ ] Implement `0.11.0` stuff once it drops
-
-<!-- 
 ## Installation
 
-Add `:paradex` to your list of dependencies in `mix.exs`:
--->
+Add `:paradex` to your list of dependencies in `mix.exs` **(note: coming soon^TM)**:
 
 <!-- BEGIN: VERSION -->
-<!--
 ```elixir
 def deps do
   [
@@ -22,12 +14,29 @@ def deps do
   ]
 end
 ```
--->
 <!-- END: VERSION -->
 
-<!--
-Documentation and usage is available on [HexDocs](https://hexdocs.pm/paradex/readme.html) and may also be generated with [ExDoc](https://github.com/elixir-lang/ex_doc).
--->
+Documentation and usage is available on [HexDocs](https://hexdocs.pm/paradex/readme.html) **(soon^TM)** and may also be generated with [ExDoc](https://github.com/elixir-lang/ex_doc).
+
+## Usage
+Create your [Ecto schema](./test/support/paradex_app/call.ex), create a search index [in your migrations](./priv/repo/migrations/20241013014316_setup.exs), and run queries:
+```elixir
+import Ecto.Query
+import Paradex
+
+alias ParadexApp.Call
+alias ParadexApp.Repo
+
+from(
+  c in Call,
+  where: search(c.id, "transcript:bus")
+) |> Repo.all()
+```
+
+## Todo
+
+- [ ] Implement full suite of tests
+- [ ] Implement `0.11.0` stuff once it drops
 
 ## Testing
 
