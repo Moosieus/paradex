@@ -16,7 +16,7 @@ end
 ```
 <!-- END: VERSION -->
 
-Documentation and usage is available on [HexDocs](https://hexdocs.pm/paradex/readme.html) **(soon^TM)** and may also be generated with [ExDoc](https://github.com/elixir-lang/ex_doc).
+Documentation is available on [HexDocs](https://hexdocs.pm/paradex/readme.html) **(soon^TM)** and may also be generated with [ExDoc](https://github.com/elixir-lang/ex_doc).
 
 ## Usage
 Create your [Ecto schema](./test/support/paradex_app/call.ex), create a search index [in your migrations](./priv/repo/migrations/20241013014316_setup.exs), and run queries:
@@ -32,6 +32,8 @@ from(
   where: search(c.id, "transcript:bus")
 ) |> Repo.all()
 ```
+
+See [the docs](https://hexdocs.pm/paradex/readme.html) for full examples.
 
 ## Todo
 
