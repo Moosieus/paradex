@@ -3,8 +3,7 @@ defmodule ParadexTest do
   use Paradex.DataCase
 
   import Ecto.Query
-
-  require Paradex, as: PDB
+  import Paradex
 
   alias ParadexApp.Repo
   alias ParadexApp.Call
@@ -14,7 +13,7 @@ defmodule ParadexTest do
       from(
         c in Call,
         select: count(),
-        where: PDB.search(c.id, "transcript:bus")
+        where: search(c.id, "transcript:bus")
       )
 
     sql = ~s{SELECT count(*) FROM "calls" AS c0 WHERE (c0."id" @@@ 'transcript:bus')}
@@ -24,25 +23,24 @@ defmodule ParadexTest do
     assert Repo.all(query) == [215]
   end
 
-  # Won't compile
-  # test "all/0 generates a query" do
-  #   query = from(
-  #     c in Call,
-  #     select: c.id,
-  #     where: PDB.search(c.id, PDB.all())
-  #   )
+  test "all/0 generates a query" do
+    query = from(
+      c in Call,
+      select: c.id,
+      where: search(c.id, all())
+    )
 
-  #   sql = ~s[SELECT c0."id" FROM "calls" AS c0 WHERE (c0."id" @@@ paradedb.all())]
+    sql = ~s[SELECT c0."id" FROM "calls" AS c0 WHERE (c0."id" @@@ paradedb.all())]
 
-  #   assert_sql(query, sql)
-  # end
+    assert_sql(query, sql)
+  end
 
   test "boost/1 generates a query" do
     query =
       from(
         c in Call,
         select: c.id,
-        where: PDB.search(c.id, PDB.boost(PDB.parse("transcript:bus"), 2.0))
+        where: search(c.id, boost(parse("transcript:bus"), 2.0))
       )
 
     sql =
@@ -58,7 +56,7 @@ defmodule ParadexTest do
       from(
         c in Call,
         select: c.id,
-        where: PDB.search(c.id, PDB.const_score(PDB.parse("transcript:bus"), 2.0))
+        where: search(c.id, const_score(parse("transcript:bus"), 2.0))
       )
 
     sql =
@@ -75,12 +73,12 @@ defmodule ParadexTest do
         c in Call,
         select: c.id,
         where:
-          PDB.search(
+          search(
             c.id,
-            PDB.disjunction_max(
+            disjunction_max(
               [
-                PDB.parse("transcript:bus"),
-                PDB.int4range("call_length", 10, nil, "[)")
+                parse("transcript:bus"),
+                int4range("call_length", 10, nil, "[)")
               ],
               2.0
             )
@@ -95,26 +93,25 @@ defmodule ParadexTest do
     assert Repo.all(query), "expected to execute successfully"
   end
 
-  # Won't compile
-  # test "empty/1 generates a query" do
-  #   query = from(
-  #     c in Call,
-  #     select: c.id,
-  #     where: PDB.search(c.id, PDB.empty())
-  #   )
+  test "empty/1 generates a query" do
+    query = from(
+      c in Call,
+      select: c.id,
+      where: search(c.id, empty())
+    )
 
-  #   sql =
-  #     ~s[SELECT c0."id" FROM "calls" AS c0 WHERE (c0."id" @@@ paradedb.empty())]
+    sql =
+      ~s[SELECT c0."id" FROM "calls" AS c0 WHERE (c0."id" @@@ paradedb.empty())]
 
-  #   assert_sql(query, sql)
-  # end
+    assert_sql(query, sql)
+  end
 
   test "exists/1 generates a query" do
     query =
       from(
         c in Call,
         select: c.id,
-        where: PDB.search(c.id, PDB.exists("call_length"))
+        where: search(c.id, pdb_exists("call_length"))
       )
 
     sql =
@@ -130,7 +127,7 @@ defmodule ParadexTest do
       from(
         c in Call,
         select: c.id,
-        where: PDB.search(c.id, PDB.fuzzy_term("transcript", "bus", 2, true, false))
+        where: search(c.id, fuzzy_term("transcript", "bus", 2, true, false))
       )
 
     sql =
@@ -147,8 +144,7 @@ defmodule ParadexTest do
       from(
         c in Call,
         select: c.id,
-        where:
-          PDB.search(c.id, PDB.fuzzy_phrase("transcript", "bus sotp", 1, false, false, false))
+        where: search(c.id, fuzzy_phrase("transcript", "bus sotp", 1, false, false, false))
       )
 
     sql =
@@ -166,7 +162,7 @@ defmodule ParadexTest do
       from(
         c in Call,
         select: c.id,
-        where: PDB.search(c.id, PDB.parse("transcript:bus"))
+        where: search(c.id, parse("transcript:bus"))
       )
 
     sql =
@@ -182,7 +178,7 @@ defmodule ParadexTest do
       from(
         c in Call,
         select: c.id,
-        where: PDB.search(c.id, PDB.phrase("transcript", ["bus", "stop"], 1))
+        where: search(c.id, phrase("transcript", ["bus", "stop"], 1))
       )
 
     sql =
@@ -196,7 +192,7 @@ defmodule ParadexTest do
       from(
         c in Call,
         select: c.id,
-        where: PDB.search(c.id, PDB.phrase_prefix("transcript", ["en"]))
+        where: search(c.id, phrase_prefix("transcript", ["en"]))
       )
 
     sql =
@@ -210,7 +206,7 @@ defmodule ParadexTest do
       from(
         c in Call,
         select: c.id,
-        where: PDB.search(c.id, PDB.int4range("call_length", 5, nil, "[)"))
+        where: search(c.id, int4range("call_length", 5, nil, "[)"))
       )
 
     sql =
@@ -224,7 +220,7 @@ defmodule ParadexTest do
       from(
         c in Call,
         select: c.id,
-        where: PDB.search(c.id, PDB.int8range("call_length", 5, nil, "[)"))
+        where: search(c.id, int8range("call_length", 5, nil, "[)"))
       )
 
     sql =
@@ -241,7 +237,7 @@ defmodule ParadexTest do
       from(
         c in Call,
         select: c.id,
-        where: PDB.search(c.id, PDB.daterange("start_time", ^start, ^stop, "[]"))
+        where: search(c.id, daterange("start_time", ^start, ^stop, "[]"))
       )
 
     sql =
@@ -257,7 +253,7 @@ defmodule ParadexTest do
       from(
         c in Call,
         select: c.id,
-        where: PDB.search(c.id, PDB.tsrange("start_time", ^from, nil, "[)"))
+        where: search(c.id, tsrange("start_time", ^from, nil, "[)"))
       )
 
     sql =
@@ -271,7 +267,7 @@ defmodule ParadexTest do
       from(
         c in Call,
         select: c.id,
-        where: PDB.search(c.id, PDB.regex("transcript", "bus (stop|route)"))
+        where: search(c.id, regex("transcript", "bus (stop|route)"))
       )
 
     sql =
@@ -285,7 +281,7 @@ defmodule ParadexTest do
       from(
         c in Call,
         select: c.id,
-        where: PDB.search(c.id, PDB.term("talk_group_id", 144))
+        where: search(c.id, term("talk_group_id", 144))
       )
 
     sql =
@@ -300,11 +296,11 @@ defmodule ParadexTest do
         c in Call,
         select: c.id,
         where:
-          PDB.search(
+          search(
             c.id,
-            PDB.term_set([
-              PDB.term("talk_group_id", 144),
-              PDB.term("talk_group_id", 145)
+            term_set([
+              term("talk_group_id", 144),
+              term("talk_group_id", 145)
             ])
           )
       )
@@ -319,7 +315,7 @@ defmodule ParadexTest do
     query =
       from(
         c in Call,
-        where: PDB.search(c.id, "transcript:mechanical"),
+        where: search(c.id, "transcript:mechanical"),
         limit: 1
       )
 

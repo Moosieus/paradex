@@ -78,7 +78,7 @@ defmodule Paradex do
     end
   end
 
-  defmacro exists(field) do
+  defmacro pdb_exists(field) do
     quote do
       fragment("paradedb.exists(field => ?::varchar)", unquote(field))
     end
