@@ -1,11 +1,11 @@
 services:
   paradedb: # 5432/5432
     image: paradedb/paradedb:latest
-    container_name: paradedb_test
+    container_name: paradex_test
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
-      - POSTGRES_DB=paradedb_test
+      - POSTGRES_DB=paradex_test
       - PARADEDB_TELEMETRY=false
     healthcheck:
       test: ["CMD", "pg_isready", "-U", "postgres"]

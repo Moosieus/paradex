@@ -1,7 +1,7 @@
-defmodule ParadeDBApp.Call do
+defmodule ParadexApp.Call do
   use Ecto.Schema
 
-  alias ParadeDBApp.TalkGroup
+  alias ParadexApp.TalkGroup
 
   schema "calls" do
     field(:call_length, :integer)

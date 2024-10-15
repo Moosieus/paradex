@@ -1,6 +1,6 @@
-defmodule ParadeDB do
+defmodule Paradex do
   @moduledoc """
-  ParadeDB specific search expressions.
+  Paradex specific search expressions.
   """
 
   @doc """
@@ -8,7 +8,7 @@ defmodule ParadeDB do
 
       from(
         c in Call,
-        where: ParadeDB.search(c.id, ParadeDB.parse("transcript:ambulance"))
+        where: Paradex.search(c.id, Paradex.parse("transcript:ambulance"))
       )
   """
   defmacro search(key_field, query) do
@@ -22,7 +22,7 @@ defmodule ParadeDB do
 
       from(
         c in Call,
-        where: ParadeDB.search(c.id, ParadeDB.all())
+        where: Paradex.search(c.id, Paradex.all())
       )
   """
   defmacro all() do

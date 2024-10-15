@@ -1,13 +1,13 @@
-defmodule ParadedbTest do
-  use ParadeDB.SQLCase
-  use ParadeDB.DataCase
+defmodule ParadexTest do
+  use Paradex.SQLCase
+  use Paradex.DataCase
 
   import Ecto.Query
 
-  require ParadeDB, as: PDB
+  require Paradex, as: PDB
 
-  alias ParadeDBApp.Repo
-  alias ParadeDBApp.Call
+  alias ParadexApp.Repo
+  alias ParadexApp.Call
 
   test "search/2 generates a query" do
     query =

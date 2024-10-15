@@ -1,4 +1,4 @@
-defmodule ParadeDBApp.Repo.Migrations.Setup do
+defmodule ParadexApp.Repo.Migrations.Setup do
   use Ecto.Migration
 
   def change() do

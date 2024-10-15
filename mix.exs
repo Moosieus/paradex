@@ -1,15 +1,15 @@
-defmodule ParadedbEctoFrag.MixProject do
+defmodule Paradex.MixProject do
   use Mix.Project
 
-  @name "ParadeDB Ecto"
+  @name "Paradex"
   @version "0.1.0"
   @source_url "https://github.com/Moosieus/paradedb_ecto"
 
   def project do
     [
-      app: :paradedb,
+      app: :paradex,
       name: @name,
-      description: "Ecto fragments for ParadeDB.",
+      description: "Ecto fragments for Paradex.",
       source_url: @source_url,
       homepage_url: @source_url,
       version: @version,

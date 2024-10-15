@@ -1,9 +1,9 @@
-defmodule ParadeDB.SQLCase do
+defmodule Paradex.SQLCase do
   use ExUnit.CaseTemplate
 
   using do
     quote do
-      import ParadeDB.Test.Helpers
+      import Paradex.Test.Helpers
     end
   end
 end

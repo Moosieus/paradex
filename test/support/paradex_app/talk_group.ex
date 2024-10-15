@@ -1,4 +1,4 @@
-defmodule ParadeDBApp.TalkGroup do
+defmodule ParadexApp.TalkGroup do
   use Ecto.Schema
 
   schema "talk_groups" do

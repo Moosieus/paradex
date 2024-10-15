@@ -1,4 +1,4 @@
-# ParadeDB Ecto
+# Paradex
 
 Ecto fragments for [ParadeDB](https://www.paradedb.com/), currently under active development.
 
@@ -10,7 +10,7 @@ Ecto fragments for [ParadeDB](https://www.paradedb.com/), currently under active
 <!-- 
 ## Installation
 
-Add `:paradedb` to your list of dependencies in `mix.exs`:
+Add `:paradex` to your list of dependencies in `mix.exs`:
 -->
 
 <!-- BEGIN: VERSION -->
@@ -18,7 +18,7 @@ Add `:paradedb` to your list of dependencies in `mix.exs`:
 ```elixir
 def deps do
   [
-    {:paradedb, "~> 0.1.0"}
+    {:paradex, "~> 0.1.0"}
   ]
 end
 ```
@@ -26,7 +26,7 @@ end
 <!-- END: VERSION -->
 
 <!--
-Documentation and usage is available on [HexDocs](https://hexdocs.pm/paradedb/readme.html) and may also be generated with [ExDoc](https://github.com/elixir-lang/ex_doc).
+Documentation and usage is available on [HexDocs](https://hexdocs.pm/paradex/readme.html) and may also be generated with [ExDoc](https://github.com/elixir-lang/ex_doc).
 -->
 
 ## Testing
@@ -35,5 +35,5 @@ Documentation and usage is available on [HexDocs](https://hexdocs.pm/paradedb/re
 mise trust && mise install
 docker compose up
 MIX_ENV=test mix setup
-psql -h 127.0.0.1 -U postgres paradedb_test -f "paradedb_test_data.sql"
+psql -h 127.0.0.1 -U postgres paradex_test -f "paradex_test_data.sql"
 ```

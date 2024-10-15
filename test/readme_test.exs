@@ -8,7 +8,7 @@ defmodule ReadmeTest do
       |> String.split(["<!-- BEGIN: VERSION -->", "<!-- END: VERSION -->"])
 
     [readme_version] =
-      Regex.run(~r/{:paradedb, \"(?<version>.*)\"}/, readme_version_text, capture: :all_names)
+      Regex.run(~r/{:paradex, \"(?<version>.*)\"}/, readme_version_text, capture: :all_names)
 
     {:ok, readme_version} = Version.parse_requirement(readme_version)
     [:~>, {readme_major, readme_minor, _, _, _}] = readme_version.lexed

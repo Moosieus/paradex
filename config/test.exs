@@ -1,10 +1,10 @@
 import Config
 
-config :paradedb, :ecto_repos, [ParadeDBApp.Repo]
+config :paradex, :ecto_repos, [ParadexApp.Repo]
 
-config :paradedb, ParadeDBApp.Repo,
+config :paradex, ParadexApp.Repo,
   pool: Ecto.Adapters.SQL.Sandbox,
-  database: "paradedb_test",
+  database: "paradex_test",
   username: "postgres",
   password: "postgres",
   hostname: "localhost"
