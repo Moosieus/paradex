@@ -1,7 +1,7 @@
 defmodule ParadexApp.Repo.Migrations.Setup do
   use Ecto.Migration
 
-  def change() do
+  def up() do
     create table(:talk_groups) do
       add :decimal, :integer, null: false
       add :description, :text, null: false
@@ -60,5 +60,25 @@ defmodule ParadexApp.Repo.Migrations.Setup do
       boolean_fields => paradedb.field('active')
     )
     """)
+  end
+
+  def down() do
+    execute("""
+    CALL paradedb.drop_bm25(
+      index_name => 'talk_groups_search_idx',
+      schema_name => 'public'
+    )
+    """)
+
+    execute("""
+    CALL paradedb.drop_bm25(
+      index_name => 'calls_search_idx',
+      schema_name => 'public'
+    )
+    """)
+
+    drop table(:calls)
+
+    drop table(:talk_groups)
   end
 end
