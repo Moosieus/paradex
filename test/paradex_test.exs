@@ -24,11 +24,12 @@ defmodule ParadexTest do
   end
 
   test "all/0 generates a query" do
-    query = from(
-      c in Call,
-      select: c.id,
-      where: search(c.id, all())
-    )
+    query =
+      from(
+        c in Call,
+        select: c.id,
+        where: search(c.id, all())
+      )
 
     sql = ~s[SELECT c0."id" FROM "calls" AS c0 WHERE (c0."id" @@@ paradedb.all())]
 
@@ -94,11 +95,12 @@ defmodule ParadexTest do
   end
 
   test "empty/1 generates a query" do
-    query = from(
-      c in Call,
-      select: c.id,
-      where: search(c.id, empty())
-    )
+    query =
+      from(
+        c in Call,
+        select: c.id,
+        where: search(c.id, empty())
+      )
 
     sql =
       ~s[SELECT c0."id" FROM "calls" AS c0 WHERE (c0."id" @@@ paradedb.empty())]
