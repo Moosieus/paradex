@@ -1,6 +1,6 @@
 defmodule Paradex do
   @moduledoc """
-  Paradex specific search expressions.
+  A collection of macros for composing ParadeDB queries.
   """
 
   @doc """
@@ -119,6 +119,11 @@ defmodule Paradex do
 
   @doc """
   Macro for [paradedb.fuzzy_term](https://docs.paradedb.com/documentation/advanced/term/fuzzy_term).
+
+      from(
+        c in Call,
+        where: c.id ~> fuzzy_term("transcript", "bus", 2, true, false)
+      )
   """
   @doc section: :term_level_queries
   defmacro fuzzy_term(field, value, distance \\ 2, transpose_cost_one \\ true, prefix \\ false) do
@@ -153,7 +158,6 @@ defmodule Paradex do
 
       from(
         c in Call,
-        select: c.id,
         where: c.id ~> regex("transcript", "(stop|route)")
       )
   """
@@ -269,6 +273,11 @@ defmodule Paradex do
 
   @doc """
   Macro for [paradedb.fuzzy_phrase](https://docs.paradedb.com/documentation/advanced/phrase/fuzzy_phrase).
+
+      from(
+        c in Call,
+        where: c.id ~> fuzzy_phrase("transcript", "bus sotp")
+      )
   """
   @doc section: :phrase_level_queries
   defmacro fuzzy_phrase(
@@ -294,6 +303,11 @@ defmodule Paradex do
 
   @doc """
   Macro for [paradedb.phrase](https://docs.paradedb.com/documentation/advanced/phrase/phrase)
+
+      from(
+        c in Call,
+        where: c.id ~> phrase("transcript", ["bus", "stop"], 1)
+      )
   """
   @doc section: :phrase_level_queries
   defmacro phrase(field, phrases, slop \\ 0) do
@@ -309,6 +323,11 @@ defmodule Paradex do
 
   @doc """
   Macro for [paradedb.phrase_prefix](https://docs.paradedb.com/documentation/advanced/phrase/phrase_prefix)
+
+      from(
+        c in Call,
+        where: c.id ~> phrase_prefix("transcript", ["en"])
+      )
   """
   @doc section: :phrase_level_queries
   defmacro phrase_prefix(field, phrases, max_expansion \\ 0) do
@@ -363,6 +382,7 @@ defmodule Paradex do
 
       from(
         c in Call,
+        select: {c. score(c.id)}
         boost(2.0, "transcript:bus")
       )
   """
@@ -379,6 +399,12 @@ defmodule Paradex do
 
   @doc """
   Macro for [paradedb.const_score](https://docs.paradedb.com/documentation/advanced/compound/const).
+
+      from(
+        c in Call,
+        select: {c, score(c.id)},
+        where: c.id ~> const_score(2.0, parse("transcript:bus"))
+      )
   """
   @doc section: :compound_queries
   defmacro const_score(score, query) do
