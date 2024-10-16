@@ -20,7 +20,10 @@ Documentation is available on [HexDocs](https://hexdocs.pm/paradex/readme.html) 
 
 ## Usage
 
-Create your [Ecto schema](https://github.com/Moosieus/paradex/blob/main/test/support/paradex_app/call.ex), create a search index in your [migrations](https://github.com/Moosieus/paradex/blob/main/priv/repo/migrations/20241013014316_setup.exs), and run search queries:
+* Create your [Ecto schema](https://github.com/Moosieus/paradex/blob/main/test/support/paradex_app/call.ex).
+* Create a [search index](https://docs.paradedb.com/documentation/indexing/create_index) in your [migrations](https://github.com/Moosieus/paradex/blob/main/priv/repo/migrations/20241013014316_setup.exs).
+* Run search queries.
+
 ```elixir
 import Ecto.Query
 import Paradex
