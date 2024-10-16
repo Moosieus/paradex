@@ -28,8 +28,8 @@ Documentation is available on [HexDocs](https://hexdocs.pm/paradex/readme.html) 
 import Ecto.Query
 import Paradex
 
-alias ParadexApp.Call
-alias ParadexApp.Repo
+alias MyApp.Call
+alias MyApp.Repo
 
 from(
   c in Call,
