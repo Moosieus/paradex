@@ -38,21 +38,12 @@ from(
 |> Repo.all()
 ```
 
-See [the docs](https://hexdocs.pm/paradex/readme.html) for full examples.
+More examples are available in the [API docs](https://hexdocs.pm/paradex/Paradex.html).
 
-## Todo
+## Roadmap/Todo
 
 * Add examples for `range_term/2` and `boolean/3`
 * Add test coverage for `range_term/2` and `boolean/3`
-* Implement [`more_like_this`](https://docs.paradedb.com/documentation/advanced/specialized/more_like_this).
-* Implement facets and aggregations (currently enterprise).
-* Implement hybrid search or add a guide for users to do so themselves.
-
-## Testing
-
-```sh
-mise trust && mise install
-docker compose up
-MIX_ENV=test mix setup
-psql -h 127.0.0.1 -U postgres paradex_test -f "paradex_test_data.sql"
-```
+* Implement [more_like_this](https://docs.paradedb.com/documentation/advanced/specialized/more_like_this).
+* Implement facets and aggregations (currently enterprise features).
+* Implement hybrid search, or add a guide for users to do so themselves.
