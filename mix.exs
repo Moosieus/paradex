@@ -9,7 +9,7 @@ defmodule Paradex.MixProject do
     [
       app: :paradex,
       name: @name,
-      description: "Ecto fragments for Paradex.",
+      description: "Ecto fragments for ParadeDB.",
       source_url: @source_url,
       homepage_url: @source_url,
       version: @version,
@@ -44,10 +44,10 @@ defmodule Paradex.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:ecto, ">= 0.0.0"},
-      {:ecto_sql, "~> 3.0"},
+      {:postgrex, ">= 0.0.0"},
+      {:ecto, "~> 3.0", optional: true},
+      {:ecto_sql, "~> 3.0", only: :test},
       {:ex_doc, ">= 0.0.0", only: :dev, runtime: false},
-      {:postgrex, "~> 0.19", only: :test},
       {:dialyxir, "~> 1.0", only: [:dev, :test], runtime: false}
     ]
   end
@@ -62,7 +62,7 @@ defmodule Paradex.MixProject do
         "README.md"
       ],
       groups_for_docs: [
-        {:Macros, &(&1[:section] == nil)},
+        {:"Macros", &(&1[:section] == nil)},
         {:"Term-level queries", &(&1[:section] == :term_level_queries)},
         {:"Range queries", &(&1[:section] == :range_queries)},
         {:"Phrase-level queries", &(&1[:section] == :phrase_level_queries)},
