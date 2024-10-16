@@ -421,7 +421,7 @@ defmodule Paradex do
   Macro for [paradedb.disjunction_max](https://docs.paradedb.com/documentation/advanced/compound/disjunction_max)
   """
   @doc section: :compound_queries
-  defmacro disjunction_max(disjuncts, tie_breaker \\ 1.0) do
+  defmacro disjunction_max(disjuncts, tie_breaker \\ 0.0) do
     quote do
       fragment(
         "paradedb.disjunction_max(?, ?::real)",

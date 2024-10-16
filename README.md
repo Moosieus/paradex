@@ -39,12 +39,21 @@ See [the docs](https://hexdocs.pm/paradex/readme.html) for full examples.
 
 ## Todo
 
-- [ ] Add examples for each macro.
-- [ ] Review defaults and calling convention.
+- [ ] Add examples for:
+  - `range_term/2`
+  - `term/2`
+  - `term_set/2`
+  - `daterange/4`
+  - `int4range/4`
+  - `int8range/4`
+  - `tsrange/4`
+  - `boolean/3`
+  - `disjuction_max/2`
+- [ ] Add test coverage for `range_term/2`
 - [ ] Implement [`more_like_this`](https://docs.paradedb.com/documentation/advanced/specialized/more_like_this).
 - [ ] Implement faceting (currently enterprise).
 - [ ] Implement aggregations (currently enterprise).
-- [ ] Determine whether or not this package or users should implement hybrid search.
+- [ ] Implement hybrid search or add a guide for users to do so themselves.
 
 ## Testing
 

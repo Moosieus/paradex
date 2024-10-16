@@ -27,7 +27,7 @@ defmodule ParadexTest do
     query =
       from(
         c in Call,
-        select: {c, snippet(c.transcript)},
+        select: {c.id, snippet(c.transcript)},
         where: c.transcript ~> "mechanic"
       )
 
@@ -93,17 +93,14 @@ defmodule ParadexTest do
         select: c.id,
         where:
           c.id
-          ~> disjunction_max(
-            [
-              parse("transcript:bus"),
-              int4range("call_length", 10, nil, "[)")
-            ],
-            2.0
-          )
+          ~> disjunction_max([
+            parse("transcript:bus"),
+            int4range("call_length", 10, nil, "[)")
+          ])
       )
 
     sql =
-      ~s{SELECT c0."id" FROM "calls" AS c0 WHERE (c0."id" @@@ paradedb.disjunction_max(ARRAY[paradedb.parse('transcript:bus'),paradedb.range(field => 'call_length', range => int4range(10, NULL, '[)'))], 2.0::float::real))}
+      ~s{SELECT c0."id" FROM "calls" AS c0 WHERE (c0."id" @@@ paradedb.disjunction_max(ARRAY[paradedb.parse('transcript:bus'),paradedb.range(field => 'call_length', range => int4range(10, NULL, '[)'))], 0.0::float::real))}
 
     assert_sql(query, sql)
 
