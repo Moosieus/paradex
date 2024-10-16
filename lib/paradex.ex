@@ -382,7 +382,7 @@ defmodule Paradex do
 
       from(
         c in Call,
-        select: {c. score(c.id)}
+        select: {c. score(c.id)},
         boost(2.0, "transcript:bus")
       )
   """
