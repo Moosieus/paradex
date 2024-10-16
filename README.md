@@ -30,8 +30,9 @@ alias ParadexApp.Repo
 
 from(
   c in Call,
-  where: c.transcript, ~> "bus"
-) |> Repo.all()
+  where: c.transcript ~> "bus"
+)
+|> Repo.all()
 ```
 
 See [the docs](https://hexdocs.pm/paradex/readme.html) for full examples.
