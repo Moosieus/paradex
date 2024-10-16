@@ -200,7 +200,7 @@ defmodule ParadexTest do
       )
 
     sql =
-      ~s{SELECT c0."id" FROM "calls" AS c0 WHERE (c0."id" @@@ paradedb.parse_with_field('transcript', 'bus', conjunction_mode => FALSE))}
+      ~s{SELECT c0."id" FROM "calls" AS c0 WHERE (c0."id" @@@ paradedb.parse_with_field('transcript', 'traffic congestion', conjunction_mode => FALSE))}
 
     assert_sql(query, sql)
 
@@ -329,15 +329,15 @@ defmodule ParadexTest do
       from(
         c in Call,
         select: count(),
-        where: c.id ~> term("talk_group_id", 144)
+        where: c.id ~> term("talkgroup_num", 7695)
       )
 
     sql =
-      ~s{SELECT count(*) FROM "calls" AS c0 WHERE (c0."id" @@@ paradedb.term('talk_group_id', 144))}
+      ~s{SELECT count(*) FROM "calls" AS c0 WHERE (c0."id" @@@ paradedb.term('talkgroup_num', 7695))}
 
     assert_sql(query, sql)
 
-    assert Repo.all(query) == [953], "expected to execute successfully"
+    assert Repo.all(query) == [249], "expected to execute successfully"
   end
 
   test "term_set/1 generates a query" do

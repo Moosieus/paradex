@@ -41,10 +41,10 @@ See [the docs](https://hexdocs.pm/paradex/readme.html) for full examples.
 
 - [ ] Add examples for:
   - `range_term/2`
-  - `term/2`
-  - `term_set/2`
   - `boolean/3`
-- [ ] Add test coverage for `range_term/2`
+- [ ] Add test coverage for:
+  - `range_term/2`
+  - `boolean/3`
 - [ ] Implement [`more_like_this`](https://docs.paradedb.com/documentation/advanced/specialized/more_like_this).
 - [ ] Implement facets and aggregations (currently enterprise).
 - [ ] Implement hybrid search or add a guide for users to do so themselves.

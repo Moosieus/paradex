@@ -176,6 +176,11 @@ defmodule Paradex do
 
   @doc """
   Macro for [paradedb.term](https://docs.paradedb.com/documentation/advanced/term/term)
+
+      from(
+        c in Call,
+        where: c.id ~> term("talkgroup_num", 7695)
+      )
   """
   @doc section: :term_level_queries
   defmacro term(field, value) do
@@ -190,6 +195,14 @@ defmodule Paradex do
 
   @doc """
   Macro for [paradedb.term_set](https://docs.paradedb.com/documentation/advanced/term/term_set)
+
+      from(
+        c in Call,
+        where: c.id ~> term_set([
+          term("talkgroup_num", 7700),
+          term("call_length", 20)
+        ])
+      )
   """
   @doc section: :term_level_queries
   defmacro term_set(terms) do
