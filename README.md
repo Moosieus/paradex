@@ -4,23 +4,23 @@ Ecto fragments for [ParadeDB](https://www.paradedb.com/), currently under active
 
 ## Installation
 
-Add `:paradex` to your list of dependencies in `mix.exs` **(note: coming soon^TM)**:
+Add `:paradex` to your list of dependencies in `mix.exs`:
 
 <!-- BEGIN: VERSION -->
 ```elixir
 def deps do
   [
-    {:paradex, "~> 0.1.0"}
+    {:paradex, "~> 0.0.1"}
   ]
 end
 ```
 <!-- END: VERSION -->
 
-Documentation is available on [HexDocs](https://hexdocs.pm/paradex/readme.html) **(soon^TM)** and may also be generated with [ExDoc](https://github.com/elixir-lang/ex_doc).
+Documentation is available on [HexDocs](https://hexdocs.pm/paradex/readme.html) and may also be generated with [ExDoc](https://github.com/elixir-lang/ex_doc).
 
 ## Usage
 
-Create your [Ecto schema](./test/support/paradex_app/call.ex), create a search index [in your migrations](./priv/repo/migrations/20241013014316_setup.exs), and run queries:
+Create your [Ecto schema](./test/support/paradex_app/call.ex), create a search index in your [migrations](./priv/repo/migrations/20241013014316_setup.exs), and run queries:
 ```elixir
 import Ecto.Query
 import Paradex
@@ -30,16 +30,19 @@ alias ParadexApp.Repo
 
 from(
   c in Call,
-  where: search(c.id, "transcript:bus")
+  where: c.transcript, ~> "transcript:bus"
 ) |> Repo.all()
 ```
 
 See [the docs](https://hexdocs.pm/paradex/readme.html) for full examples.
 
 ## Todo
-
-- [ ] Implement full suite of tests
-- [ ] Implement `0.11.0` stuff once it drops
+- [ ] Document everything.
+- [ ] Review defaults and syntax improvements.
+- [ ] Implement [`more_like_this`](https://docs.paradedb.com/documentation/advanced/specialized/more_like_this).
+- [ ] Implement faceting (currently enterprise).
+- [ ] Implement aggregations (currently enterprise).
+- [ ] Determine whether or not this package or users should implement hybrid search.
 
 ## Testing
 

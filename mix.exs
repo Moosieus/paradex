@@ -2,8 +2,8 @@ defmodule Paradex.MixProject do
   use Mix.Project
 
   @name "Paradex"
-  @version "0.1.0"
-  @source_url "https://github.com/Moosieus/paradedb_ecto"
+  @version "0.0.1"
+  @source_url "https://github.com/Moosieus/paradex"
 
   def project do
     [
@@ -60,6 +60,14 @@ defmodule Paradex.MixProject do
       source_url: @source_url,
       extras: [
         "README.md"
+      ],
+      groups_for_docs: [
+        {:Macros, &(&1[:section] == nil)},
+        {:"Term-level queries", &(&1[:section] == :term_level_queries)},
+        {:"Range queries", &(&1[:section] == :range_queries)},
+        {:"Phrase-level queries", &(&1[:section] == :phrase_level_queries)},
+        {:"Compound queries", &(&1[:section] == :compound_queries)},
+        {:"Specialized queries", &(&1[:section] == :specialized_queries)}
       ]
     ]
   end
