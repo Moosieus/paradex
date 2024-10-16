@@ -4,7 +4,9 @@ defmodule Paradex do
   """
 
   @doc """
-  Macro for the [`@@@`](https://docs.paradedb.com/documentation/full-text/overview#basic-usage) full text search operator. `~>` is used as it's one of a few infix operators Elixir's capable of parsing, but aren't presently used.
+  Macro for the [`@@@`](https://docs.paradedb.com/documentation/full-text/overview#basic-usage) full text search operator.
+
+  `~>` is used as it's one of a few infix operators Elixir's capable of parsing, but aren't presently used.
 
   ## Examples
   Search queries can be run on fields directly:
@@ -205,6 +207,11 @@ defmodule Paradex do
 
   @doc """
   Macro for [paradedb.range](https://docs.paradedb.com/documentation/advanced/term/range) using the `int4` data type.
+
+      from(
+        c in Call,
+        where: c.id ~> int4range("call_length", 5, nil, "[)")
+      )
   """
   @doc section: :range_queries
   defmacro int4range(field, min, max, bounds) do
@@ -221,6 +228,11 @@ defmodule Paradex do
 
   @doc """
   Macro for [paradedb.range](https://docs.paradedb.com/documentation/advanced/term/range) using the `int8` data type.
+
+      from(
+        c in Call,
+        where: c.id ~> int8range("call_length", 5, nil, "[)")
+      )
   """
   @doc section: :range_queries
   defmacro int8range(field, min, max, bounds) do
@@ -237,6 +249,15 @@ defmodule Paradex do
 
   @doc """
   Macro for [paradedb.range](https://docs.paradedb.com/documentation/advanced/term/range) using the `date` data type.
+
+      start = ~D[2024-10-09]
+      stop = ~D[2024-10-10]
+
+      query =
+        from(
+          c in Call,
+          where: c.id ~> daterange("start_time", ^start, ^stop, "[]")
+        )
   """
   @doc section: :range_queries
   defmacro daterange(field, min, max, bounds) do
@@ -253,6 +274,14 @@ defmodule Paradex do
 
   @doc """
   Macro for [paradedb.range](https://docs.paradedb.com/documentation/advanced/term/range) using the `timestamp` data type.
+
+      begin = ~U[2024-10-09 08:00:00.00Z]
+
+      query =
+        from(
+          c in Call,
+          where: c.id ~> tsrange("start_time", ^begin, nil, "[)")
+        )
   """
   @doc section: :range_queries
   defmacro tsrange(field, min, max, bounds) do
@@ -419,6 +448,15 @@ defmodule Paradex do
 
   @doc """
   Macro for [paradedb.disjunction_max](https://docs.paradedb.com/documentation/advanced/compound/disjunction_max)
+
+      from(
+        c in Call,
+        where:
+          c.id ~> disjunction_max([
+            parse("transcript:bus"),
+            int4range("call_length", 10, nil, "[)")
+          ])
+      )
   """
   @doc section: :compound_queries
   defmacro disjunction_max(disjuncts, tie_breaker \\ 0.0) do
@@ -458,6 +496,26 @@ defmodule Paradex do
   defmacro parse(query) do
     quote do
       fragment("paradedb.parse(?)", unquote(query))
+    end
+  end
+
+  @doc """
+  Macro for [paradedb.parse_with_field](https://docs.paradedb.com/documentation/advanced/compound/parse#parse-with-field)
+
+      from(
+        c in Call,
+        where: c.id ~> parse_with_field("transcript", "traffic congestion")
+      )
+  """
+  @doc section: :compound_queries
+  defmacro parse_with_field(field, query, conjunction_mode \\ false) do
+    quote do
+      fragment(
+        "paradedb.parse_with_field(?, ?, conjunction_mode => ?)",
+        unquote(field),
+        unquote(query),
+        unquote(conjunction_mode)
+      )
     end
   end
 

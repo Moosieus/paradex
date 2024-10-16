@@ -191,6 +191,22 @@ defmodule ParadexTest do
     assert Repo.exists?(query), "expected to execute successfully and return true"
   end
 
+  test "parse_with_field/3 generates a query" do
+    query =
+      from(
+        c in Call,
+        select: c.id,
+        where: c.id ~> parse_with_field("transcript", "traffic congestion")
+      )
+
+    sql =
+      ~s{SELECT c0."id" FROM "calls" AS c0 WHERE (c0."id" @@@ paradedb.parse_with_field('transcript', 'bus', conjunction_mode => FALSE))}
+
+    assert_sql(query, sql)
+
+    assert Repo.all(query), "expected to execute successfully and return true"
+  end
+
   test "phrase/3 generates a query" do
     query =
       from(
