@@ -37,8 +37,9 @@ from(
 See [the docs](https://hexdocs.pm/paradex/readme.html) for full examples.
 
 ## Todo
-- [ ] Document everything.
-- [ ] Review defaults and syntax improvements.
+
+- [ ] Add examples for each macro.
+- [ ] Review defaults and calling convention.
 - [ ] Implement [`more_like_this`](https://docs.paradedb.com/documentation/advanced/specialized/more_like_this).
 - [ ] Implement faceting (currently enterprise).
 - [ ] Implement aggregations (currently enterprise).
