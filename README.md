@@ -30,7 +30,7 @@ alias ParadexApp.Repo
 
 from(
   c in Call,
-  where: c.transcript, ~> "transcript:bus"
+  where: c.transcript, ~> "bus"
 ) |> Repo.all()
 ```
 
