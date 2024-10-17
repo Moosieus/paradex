@@ -54,6 +54,53 @@ defmodule ParadexTest do
     assert Repo.all(query), "expected to execute successfully"
   end
 
+  test "boolean/1 generates a query with all keys" do
+    x = "transcript:station"
+
+    query =
+      from(
+        c in Call,
+        select: count(),
+        where:
+          c.id
+          ~> boolean(
+            must: [parse("transcript:transfer")],
+            should: [parse("transcript:bus")],
+            must_not: [parse(^x)]
+          )
+      )
+
+    sql =
+      ~s{SELECT count(*) FROM \"calls\" AS c0 WHERE (c0.\"id\" @@@ paradedb.boolean(must => ARRAY[paradedb.parse('transcript:transfer')], should => ARRAY[paradedb.parse('transcript:bus')], must_not => ARRAY[paradedb.parse($1)]))}
+
+    assert_sql(query, sql)
+
+    assert Repo.all(query) == [3]
+  end
+
+  test "boolean/1 generates a query with partial keys" do
+    x = "transcript:station"
+
+    query =
+      from(
+        c in Call,
+        select: count(),
+        where:
+          c.id
+          ~> boolean(
+            must: [parse("transcript:transfer")],
+            must_not: [parse(^x)]
+          )
+      )
+
+    sql =
+      ~s|SELECT count(*) FROM \"calls\" AS c0 WHERE (c0.\"id\" @@@ paradedb.boolean(must => ARRAY[paradedb.parse('transcript:transfer')], should => '{}', must_not => ARRAY[paradedb.parse($1)]))|
+
+    assert_sql(query, sql)
+
+    assert Repo.all(query) == [3]
+  end
+
   test "boost/1 generates a query" do
     query =
       from(
@@ -337,7 +384,7 @@ defmodule ParadexTest do
 
     assert_sql(query, sql)
 
-    assert Repo.all(query) == [249], "expected to execute successfully"
+    assert Repo.all(query) == [249]
   end
 
   test "term_set/1 generates a query" do

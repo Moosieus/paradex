@@ -1,7 +1,6 @@
 services:
   paradedb: # 5432/5432
     image: paradedb/paradedb:latest
-    container_name: paradex_test
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
@@ -13,4 +12,4 @@ services:
       timeout: 5s
       retries: 5
     ports:
-      - "5432:5432"
+      - "5433:5432"

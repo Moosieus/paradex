@@ -405,10 +405,25 @@ defmodule Paradex do
   @doc """
   Macro for [paradedb.boolean](https://docs.paradedb.com/documentation/advanced/compound/boolean).
 
-  Each value must be a query object, or a list of query objects.
+  Each value must be a literal Keyword list at the top level, where each value is a list:
+      x = "transcript:transfer"
+
+      from(
+        c in Call,
+        where: c.id ~> boolean(
+          must: [parse(^x)],
+          must_not: [parse("transcript:station")]
+        )
+      )
+
+  Keys other than `must`, `should`, and `must_not` are ignored, so be wary of misspelling.
   """
   @doc section: :compound_queries
-  defmacro boolean(must \\ [], should \\ [], must_not \\ []) do
+  defmacro boolean(queries) do
+    must = Keyword.get(queries, :must, [])
+    should = Keyword.get(queries, :should, [])
+    must_not = Keyword.get(queries, :must_not, [])
+
     quote do
       fragment(
         "paradedb.boolean(must => ?, should => ?, must_not => ?)",

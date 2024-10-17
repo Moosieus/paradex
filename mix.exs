@@ -62,7 +62,7 @@ defmodule Paradex.MixProject do
         "README.md"
       ],
       groups_for_docs: [
-        {:"Macros", &(&1[:section] == nil)},
+        {:Macros, &(&1[:section] == nil)},
         {:"Term-level queries", &(&1[:section] == :term_level_queries)},
         {:"Range queries", &(&1[:section] == :range_queries)},
         {:"Phrase-level queries", &(&1[:section] == :phrase_level_queries)},

@@ -7,4 +7,5 @@ config :paradex, ParadexApp.Repo,
   database: "paradex_test",
   username: "postgres",
   password: "postgres",
-  hostname: "localhost"
+  hostname: "localhost",
+  port: 5433
