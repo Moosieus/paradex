@@ -105,7 +105,9 @@ defmodule Paradex do
   ########################
 
   @doc """
-  Macro for [paradedb.exists](https://docs.paradedb.com/documentation/advanced/term/exists#exists). Prefixed with `pdb_` to avoid conflicting with `Ecto.Query.API.exists/1`.
+  Macro for [paradedb.exists](https://docs.paradedb.com/documentation/advanced/term/exists#exists).
+
+  Prefixed with `pdb_` to avoid conflicting with `Ecto.Query.API.exists/1`.
 
       from(
         c in Call,
@@ -142,7 +144,7 @@ defmodule Paradex do
   end
 
   @doc """
-  Macro for [paradedb.range_term](https://docs.paradedb.com/documentation/advanced/term/range_term)
+  Macro for [paradedb.range_term](https://docs.paradedb.com/documentation/advanced/term/range_term).
   """
   @doc section: :term_level_queries
   defmacro range_term(field, value) do
@@ -175,7 +177,7 @@ defmodule Paradex do
   end
 
   @doc """
-  Macro for [paradedb.term](https://docs.paradedb.com/documentation/advanced/term/term)
+  Macro for [paradedb.term](https://docs.paradedb.com/documentation/advanced/term/term).
 
       from(
         c in Call,
@@ -194,7 +196,7 @@ defmodule Paradex do
   end
 
   @doc """
-  Macro for [paradedb.term_set](https://docs.paradedb.com/documentation/advanced/term/term_set)
+  Macro for [paradedb.term_set](https://docs.paradedb.com/documentation/advanced/term/term_set).
 
       from(
         c in Call,
@@ -344,7 +346,7 @@ defmodule Paradex do
   end
 
   @doc """
-  Macro for [paradedb.phrase](https://docs.paradedb.com/documentation/advanced/phrase/phrase)
+  Macro for [paradedb.phrase](https://docs.paradedb.com/documentation/advanced/phrase/phrase).
 
       from(
         c in Call,
@@ -364,7 +366,7 @@ defmodule Paradex do
   end
 
   @doc """
-  Macro for [paradedb.phrase_prefix](https://docs.paradedb.com/documentation/advanced/phrase/phrase_prefix)
+  Macro for [paradedb.phrase_prefix](https://docs.paradedb.com/documentation/advanced/phrase/phrase_prefix).
 
       from(
         c in Call,
@@ -475,7 +477,7 @@ defmodule Paradex do
   end
 
   @doc """
-  Macro for [paradedb.disjunction_max](https://docs.paradedb.com/documentation/advanced/compound/disjunction_max)
+  Macro for [paradedb.disjunction_max](https://docs.paradedb.com/documentation/advanced/compound/disjunction_max).
 
       from(
         c in Call,
@@ -498,7 +500,7 @@ defmodule Paradex do
   end
 
   @doc """
-  Macro for [paradedb.empty](https://docs.paradedb.com/documentation/advanced/compound/empty)
+  Macro for [paradedb.empty](https://docs.paradedb.com/documentation/advanced/compound/empty).
 
       from(
         c in Call,
@@ -513,7 +515,7 @@ defmodule Paradex do
   end
 
   @doc """
-  Macro for [paradedb.parse](https://docs.paradedb.com/documentation/advanced/compound/parse)
+  Macro for [paradedb.parse](https://docs.paradedb.com/documentation/advanced/compound/parse).
 
       from(
         c in Call,
@@ -528,7 +530,7 @@ defmodule Paradex do
   end
 
   @doc """
-  Macro for [paradedb.parse_with_field](https://docs.paradedb.com/documentation/advanced/compound/parse#parse-with-field)
+  Macro for [paradedb.parse_with_field](https://docs.paradedb.com/documentation/advanced/compound/parse#parse-with-field).
 
       from(
         c in Call,
