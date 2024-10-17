@@ -42,8 +42,7 @@ More examples are available in the [API docs](https://hexdocs.pm/paradex/Paradex
 
 ## Roadmap/Todo
 
-* Add examples for `range_term/2` and `boolean/3`
-* Add test coverage for `range_term/2` and `boolean/3`
+* Add examples and test coverage for `range_term/2`
 * Implement [more_like_this](https://docs.paradedb.com/documentation/advanced/specialized/more_like_this).
 * Implement facets and aggregations (currently enterprise features).
 * Implement hybrid search, or add a guide for users to do so themselves.
