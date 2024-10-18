@@ -150,7 +150,7 @@ defmodule Paradex do
   defmacro range_term(field, value) do
     quote do
       fragment(
-        "paradedb.range_term(?::varchar, ?)",
+        "paradedb.range_term(?, ?)",
         unquote(field),
         unquote(value)
       )

@@ -8,4 +8,5 @@ config :paradex, ParadexApp.Repo,
   username: "postgres",
   password: "postgres",
   hostname: "localhost",
-  port: 5433
+  port: 5433,
+  types: ParadexApp.PostgrexTypes

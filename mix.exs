@@ -45,6 +45,7 @@ defmodule Paradex.MixProject do
   defp deps do
     [
       {:postgrex, ">= 0.0.0"},
+      {:pgvector, "~> 0.3.0", optional: true},
       {:ecto, "~> 3.0", optional: true},
       {:ecto_sql, "~> 3.0", only: :test},
       {:ex_doc, ">= 0.0.0", only: :dev, runtime: false},
@@ -59,7 +60,8 @@ defmodule Paradex.MixProject do
       source_ref: "main",
       source_url: @source_url,
       extras: [
-        "README.md"
+        "README.md",
+        "notebooks/hybrid_search.livemd"
       ],
       groups_for_docs: [
         {:Macros, &(&1[:section] == nil)},
