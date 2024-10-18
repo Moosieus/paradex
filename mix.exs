@@ -45,10 +45,17 @@ defmodule Paradex.MixProject do
   defp deps do
     [
       {:postgrex, ">= 0.0.0"},
+      {:pgvector, "~> 0.3.0", optional: true},
       {:ecto, "~> 3.0", optional: true},
       {:ecto_sql, "~> 3.0", only: :test},
       {:ex_doc, ">= 0.0.0", only: :dev, runtime: false},
-      {:dialyxir, "~> 1.0", only: [:dev, :test], runtime: false}
+      {:dialyxir, "~> 1.0", only: [:dev, :test], runtime: false},
+      # Nx temp
+      {:bumblebee, "~> 0.6.0"},
+      {:nx, "~> 0.9.0"},
+      {:exla, "~> 0.9.0"},
+      {:axon, "~> 0.7.0"},
+      {:kino, "~> 0.14.0"}
     ]
   end
 

@@ -9,6 +9,7 @@ defmodule ParadexApp.Call do
     field(:stop_time, :naive_datetime)
     field(:talkgroup_num, :integer)
     field(:transcript, :string)
+    field(:embedding, Pgvector.Ecto.Vector)
 
     belongs_to(:talk_group, TalkGroup)
   end
