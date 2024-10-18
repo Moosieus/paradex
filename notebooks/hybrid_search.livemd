@@ -1,4 +1,4 @@
-# Hybrid Search
+# Hybrid Search Example
 
 ```elixir
 Mix.install(
@@ -55,13 +55,11 @@ Mix.install(
 
 ## Summary
 
-**Full disclaimer:** *This ain't no peer reviewed study, and I'm using lots of big words here that I don't ~~quite~~ understand.*
-
-*If I got something wrong here, please call me out.*
+**Full disclaimer:** *This ain't no peer reviewed study, and I'm using lots of big words here that I don't ~~quite~~ understand. If I got something wrong here, please call me out.*
 
 <!-- livebook:{"break_markdown":true} -->
 
-This livebook will demonstrate a means to perform hybrid search using ParadeDB. We'll use Paradex's sample dataset, which is mostly radio chatter between public bus drivers. The text embeddings will be generated with Nx. This example's mostly cribbed from [ParadeDB's tutorial](https://docs.paradedb.com/documentation/guides/hybrid).
+This livebook demonstrates a means to perform hybrid search using ParadeDB and Ecto. We'll use Paradex's sample dataset, which is mostly radio chatter between public bus drivers. The text embeddings will be generated with Nx. This example's mostly cribbed from [ParadeDB's tutorial](https://docs.paradedb.com/documentation/guides/hybrid).
 
 We'll start with our top-level imports:
 

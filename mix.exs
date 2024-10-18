@@ -60,7 +60,8 @@ defmodule Paradex.MixProject do
       source_ref: "main",
       source_url: @source_url,
       extras: [
-        "README.md"
+        "README.md",
+        "notebooks/hybrid_search.livemd"
       ],
       groups_for_docs: [
         {:Macros, &(&1[:section] == nil)},
