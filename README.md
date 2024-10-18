@@ -42,6 +42,4 @@ More examples are available in the [API docs](https://hexdocs.pm/paradex/Paradex
 
 ## Roadmap/Todo
 
-* Implement [more_like_this](https://docs.paradedb.com/documentation/advanced/specialized/more_like_this).
-* Implement hybrid search, or add a guide for users to do so themselves.
 * Implement CI/CD testing on GitHub and toggle squash merges.

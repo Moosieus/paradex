@@ -1,0 +1,162 @@
+# Hybrid Search
+
+```elixir
+Mix.install(
+  [
+    # the ecto we know and love
+    {:postgrex, ">= 0.0.0"},
+    {:pgvector, "~> 0.3.0"},
+    {:ecto, "~> 3.0"},
+    {:ecto_sql, "~> 3.0"},
+    # Nx stuff
+    {:bumblebee, "~> 0.6.0"},
+    {:nx, "~> 0.9.0"},
+    {:exla, "~> 0.9.0"},
+    {:axon, "~> 0.7.0"},
+    {:kino, "~> 0.14.0"},
+    # paradex
+    {:paradex, path: Path.join(__DIR__, "../"), env: :test}
+  ],
+  # I've configured this for my rig, yours will likely differ.
+  config: [
+    paradex: [
+      {:ecto_repos, [ParadexApp.Repo]},
+      {ParadexApp.Repo, [
+        pool: Ecto.Adapters.SQL.Sandbox,
+        database: "paradex_test",
+        username: "postgres",
+        password: "postgres",
+        hostname: "localhost",
+        timeout: 600_000,
+        ownership_timeout: 600_000,
+        pool_timeout: 600_000,
+        port: 5433,
+        types: ParadexApp.PostgrexTypes
+      ]}
+    ],
+    exla: [
+      clients: [
+        cuda: [
+          platform: :cuda,
+          memory_fraction: 0.85,
+          device_id: 0
+        ]
+      ],
+      client: :cuda
+    ],
+    nx: [
+      default_backend: {EXLA.Backend, client: :cuda, device_id: 0}
+    ]
+  ],
+  config_path: :paradex,
+  lockfile: :paradex
+)
+```
+
+## Summary
+
+**Full disclaimer:** *This ain't no peer reviewed study, and I'm using lots of big words here that I don't ~~quite~~ understand.*
+
+*If I got something wrong here, please call me out.*
+
+<!-- livebook:{"break_markdown":true} -->
+
+This livebook will demonstrate a means to perform hybrid search using ParadeDB. We'll use Paradex's sample dataset, which is mostly radio chatter between public bus drivers. The text embeddings will be generated with Nx. This example's mostly cribbed from [ParadeDB's tutorial](https://docs.paradedb.com/documentation/guides/hybrid).
+
+We'll start with our top-level imports:
+
+```elixir
+import Ecto.Query
+import Paradex
+import Pgvector.Ecto.Query
+
+alias ParadexApp.Repo
+alias ParadexApp.Call
+
+Repo.start_link()
+```
+
+Next we'll load a transformer for generating text embeddings. I've gone with `sentence-transformers/all-MiniLM-L6-v2`, as I quite frankly don't know any better.
+
+```elixir
+{:ok, model_info} = Bumblebee.load_model({:hf, "sentence-transformers/all-MiniLM-L6-v2"})
+{:ok, tokenizer} = Bumblebee.load_tokenizer({:hf, "sentence-transformers/all-MiniLM-L6-v2"})
+serving = Bumblebee.Text.TextEmbedding.text_embedding(model_info, tokenizer)
+```
+
+Next up, there parameters for our hybrid search. I'm using a simple Tantivy query on the text search side for demo sake. You could elect to use a more advanced query, though.
+
+```elixir
+%{embedding: embedding} = Nx.Serving.run(serving, "bus late behind schedule")
+search = "bus late behind schedule"
+vector = Pgvector.new(embedding)
+top_n = 25
+```
+
+We'll run our two searches and rank the `top_n` results. I'm using L2 distanceas I quite frankly don't know any better.
+
+```elixir
+semantic_search =
+  from(
+    c in Call,
+    select: %{
+      id: c.id,
+      rank: fragment("RANK() OVER (ORDER BY ?)", l2_distance(c.embedding, ^vector))
+    },
+    order_by: [asc: l2_distance(c.embedding, ^vector)],
+    limit: ^top_n
+  )
+
+bm25_search =
+  from(
+    c in Call,
+    select: %{
+      id: c.id,
+      rank: fragment("RANK() OVER (ORDER BY paradedb.score(?) DESC)", c.id)
+    },
+    where: c.transcript ~> ^search,
+    limit: ^top_n
+  )
+
+```
+
+We can tie them together with reciprocal rank fusion like so:
+
+```elixir
+hybrid_search =
+  from(
+    sem in subquery(semantic_search),
+    full_join: bm25 in subquery(bm25_search), on: sem.id == bm25.id,
+    order_by: [desc: fragment("score"), asc: sem.id],
+    select: %{
+      id: coalesce(sem.id, bm25.id),
+      score: fragment("COALESCE(1.0 / (60 + ?), 0.0) + COALESCE(1.0 / (60 + ?), 0.0)", sem.rank, bm25.rank)
+    },
+    limit: ^top_n
+  )
+```
+
+We can either `join/5` our schema in the query above, or use it as a subquery for a bit more flexibility, say for preloading:
+
+```elixir
+from(
+  c in Call,
+  join: r in subquery(hybrid_search), on: c.id == r.id,
+  preload: [:talk_group],
+  select: %{score: r.score, call: c}
+)
+
+:ok
+```
+
+That'll print a bit much for demonstration sake, so I'll abridge the select query here:
+
+```elixir
+from(
+  c in Call,
+  join: r in subquery(hybrid_search), on: c.id == r.id,
+  select: %{score: r.score, id: c.id, transcript: c.transcript},
+  limit: 7
+)
+|> Repo.all()
+```
