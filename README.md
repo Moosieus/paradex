@@ -39,7 +39,3 @@ from(
 ```
 
 More examples are available in the [API docs](https://hexdocs.pm/paradex/Paradex.html).
-
-## Roadmap/Todo
-
-* Implement CI/CD testing on GitHub and toggle squash merges.
