@@ -2,7 +2,7 @@ defmodule Paradex.MixProject do
   use Mix.Project
 
   @name "Paradex"
-  @version "0.0.3"
+  @version "0.1.0"
   @source_url "https://github.com/Moosieus/paradex"
 
   def project do
