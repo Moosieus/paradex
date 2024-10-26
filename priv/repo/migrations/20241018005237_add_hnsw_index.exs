@@ -1,4 +1,4 @@
-defmodule ParadexApp.Repo.Migrations.AddEmbeddings do
+defmodule ParadexApp.Repo.Migrations.AddHNSWIndex do
   use Ecto.Migration
 
   def change() do

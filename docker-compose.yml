@@ -13,3 +13,8 @@ services:
       retries: 5
     ports:
       - "5433:5432"
+    volumes:
+      - paradedb_data:/var/lib/postgresql/data/
+
+volumes:
+  paradedb_data:

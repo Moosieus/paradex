@@ -1,6 +1,6 @@
 # Paradex
 
-Ecto fragments for [ParadeDB](https://www.paradedb.com/), currently under active development.
+Ecto fragments for [ParadeDB](https://www.paradedb.com/) `0.11.x`.
 
 ## Installation
 
