@@ -71,7 +71,7 @@ defmodule ParadexTest do
       )
 
     sql =
-      ~s{SELECT count(*) FROM \"calls\" AS c0 WHERE (c0.\"id\" @@@ paradedb.boolean(must => ARRAY[paradedb.parse('transcript:transfer')], should => ARRAY[paradedb.parse('transcript:bus')], must_not => ARRAY[paradedb.parse($1)]))}
+      ~s{SELECT count(*) FROM \"calls\" AS c0 WHERE (c0.\"id\" @@@ paradedb.boolean(must => ARRAY[paradedb.parse('transcript:transfer', lenient => FALSE, conjunction_mode => TRUE)], should => ARRAY[paradedb.parse('transcript:bus', lenient => FALSE, conjunction_mode => TRUE)], must_not => ARRAY[paradedb.parse($1, lenient => FALSE, conjunction_mode => TRUE)]))}
 
     assert_sql(query, sql)
 
@@ -94,7 +94,7 @@ defmodule ParadexTest do
       )
 
     sql =
-      ~s|SELECT count(*) FROM \"calls\" AS c0 WHERE (c0.\"id\" @@@ paradedb.boolean(must => ARRAY[paradedb.parse('transcript:transfer')], should => '{}', must_not => ARRAY[paradedb.parse($1)]))|
+      ~s|SELECT count(*) FROM \"calls\" AS c0 WHERE (c0.\"id\" @@@ paradedb.boolean(must => ARRAY[paradedb.parse('transcript:transfer', lenient => FALSE, conjunction_mode => TRUE)], should => '{}', must_not => ARRAY[paradedb.parse($1, lenient => FALSE, conjunction_mode => TRUE)]))|
 
     assert_sql(query, sql)
 
@@ -110,7 +110,7 @@ defmodule ParadexTest do
       )
 
     sql =
-      ~s{SELECT c0."id" FROM "calls" AS c0 WHERE (c0."id" @@@ paradedb.boost(2.0::float::real, paradedb.parse('transcript:bus')))}
+      ~s{SELECT c0.\"id\" FROM \"calls\" AS c0 WHERE (c0.\"id\" @@@ paradedb.boost(2.0::float::real, paradedb.parse('transcript:bus', lenient => FALSE, conjunction_mode => TRUE)))}
 
     assert_sql(query, sql)
 
@@ -126,7 +126,7 @@ defmodule ParadexTest do
       )
 
     sql =
-      ~s{SELECT c0."id" FROM "calls" AS c0 WHERE (c0."id" @@@ paradedb.const_score(2.0::float::real, paradedb.parse('transcript:bus')))}
+      ~s{SELECT c0.\"id\" FROM \"calls\" AS c0 WHERE (c0.\"id\" @@@ paradedb.const_score(2.0::float::real, paradedb.parse('transcript:bus', lenient => FALSE, conjunction_mode => TRUE)))}
 
     assert_sql(query, sql)
 
@@ -147,7 +147,7 @@ defmodule ParadexTest do
       )
 
     sql =
-      ~s{SELECT c0."id" FROM "calls" AS c0 WHERE (c0."id" @@@ paradedb.disjunction_max(ARRAY[paradedb.parse('transcript:bus'),paradedb.range(field => 'call_length', range => int4range(10, NULL, '[)'))], 0.0::float::real))}
+      ~s{SELECT c0.\"id\" FROM \"calls\" AS c0 WHERE (c0.\"id\" @@@ paradedb.disjunction_max(ARRAY[paradedb.parse('transcript:bus', lenient => FALSE, conjunction_mode => TRUE),paradedb.range(field => 'call_length', range => int4range(10, NULL, '[)'))], 0.0::float::real))}
 
     assert_sql(query, sql)
 
@@ -222,32 +222,32 @@ defmodule ParadexTest do
   #
   # end
 
-  test "parse/1 generates a query" do
+  test "parse/3 generates a query" do
     query =
       from(
         c in Call,
         select: c.id,
-        where: c.id ~> parse("transcript:bus")
+        where: c.id ~> parse("transcript:bus", false, false)
       )
 
     sql =
-      ~s{SELECT c0."id" FROM "calls" AS c0 WHERE (c0."id" @@@ paradedb.parse('transcript:bus'))}
+      ~s{SELECT c0."id" FROM "calls" AS c0 WHERE (c0."id" @@@ paradedb.parse('transcript:bus', lenient => FALSE, conjunction_mode => FALSE))}
 
     assert_sql(query, sql)
 
     assert Repo.exists?(query), "expected to execute successfully and return true"
   end
 
-  test "parse_with_field/3 generates a query" do
+  test "parse_with_field/4 generates a query" do
     query =
       from(
         c in Call,
         select: c.id,
-        where: c.id ~> parse_with_field("transcript", "traffic congestion")
+        where: c.id ~> parse_with_field("transcript", "traffic congestion", true, false)
       )
 
     sql =
-      ~s{SELECT c0."id" FROM "calls" AS c0 WHERE (c0."id" @@@ paradedb.parse_with_field('transcript', 'traffic congestion', conjunction_mode => FALSE))}
+      ~s{SELECT c0."id" FROM "calls" AS c0 WHERE (c0."id" @@@ paradedb.parse_with_field('transcript', 'traffic congestion', lenient => TRUE, conjunction_mode => FALSE))}
 
     assert_sql(query, sql)
 

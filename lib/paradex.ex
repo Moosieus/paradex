@@ -523,9 +523,14 @@ defmodule Paradex do
       )
   """
   @doc section: :compound_queries
-  defmacro parse(query) do
+  defmacro parse(query, lenient \\ false, conjunction_mode \\ true) do
     quote do
-      fragment("paradedb.parse(?)", unquote(query))
+      fragment(
+        "paradedb.parse(?, lenient => ?, conjunction_mode => ?)",
+        unquote(query),
+        unquote(lenient),
+        unquote(conjunction_mode)
+      )
     end
   end
 
@@ -538,12 +543,13 @@ defmodule Paradex do
       )
   """
   @doc section: :compound_queries
-  defmacro parse_with_field(field, query, conjunction_mode \\ false) do
+  defmacro parse_with_field(field, query, lenient \\ false, conjunction_mode \\ true) do
     quote do
       fragment(
-        "paradedb.parse_with_field(?, ?, conjunction_mode => ?)",
+        "paradedb.parse_with_field(?, ?, lenient => ?, conjunction_mode => ?)",
         unquote(field),
         unquote(query),
+        unquote(lenient),
         unquote(conjunction_mode)
       )
     end

@@ -10,7 +10,7 @@ Add `:paradex` to your list of dependencies in `mix.exs`:
 ```elixir
 def deps do
   [
-    {:paradex, "~> 0.1.0"}
+    {:paradex, "~> 0.2.0"}
   ]
 end
 ```
