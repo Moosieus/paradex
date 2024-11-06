@@ -34,7 +34,7 @@ Postgrex.Types.define(
 
 Add the following to `config/config.exs`:
 ```elixir
-config :my_app, MyApp.repo, types: MyApp.PostgrexTypes
+config :my_app, MyApp.Repo, types: MyApp.PostgrexTypes
 ```
 
 
