@@ -1,5 +1,12 @@
 # Changelog
 
+## v0.3.0 (2024-11-05)
+* Added `Paradex.extensions/1` which presently consists of `[ Paradex.FieldName ]`.
+  * This allows Postgrex to parameterize field names in ParadeDB query objects, solving issue [#4](https://github.com/Moosieus/paradex/issues/4).
+* Updated docs to include instructions for the above.
+
+*If you've configured everything correctly and are receiving an error that `fieldname` doesn't exist, try updating ParadeDB.*
+
 ## v0.2.0 (2024-10-27)
 * Added `lenient` and `conjunction_mode` options to `parse` (non-breaking).
 * Added `lenient` option to `parse_with_field` as the 2nd argument, making `conjunction_mode` the 3rd (minor breaking change).
