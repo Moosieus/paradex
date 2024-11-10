@@ -1,7 +1,7 @@
 # Changelog
 
 ## v0.3.1 (2024-11-10)
-* There are no code changes in this release. `README.md` has been updated to include compatibility ParadeDB `0.12.x`.
+* There are no code changes in this release. `README.md` has been updated to include compatibility with ParadeDB `0.12.x`.
 
 ## v0.3.0 (2024-11-05)
 * Added `Paradex.extensions/1` which presently consists of `[ Paradex.FieldName ]`.
