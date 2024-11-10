@@ -29,7 +29,7 @@ defmodule Paradex.MixProject do
   def package do
     [
       licenses: ["Apache-2.0"],
-      files: ["lib", "mix.exs", "README.md", "LICENSE"],
+      files: ["lib", "mix.exs", "README.md", "CHANGELOG.md", "LICENSE"],
       links: %{"GitHub" => @source_url}
     ]
   end
