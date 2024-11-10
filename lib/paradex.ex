@@ -4,7 +4,7 @@ defmodule Paradex do
   """
 
   @doc """
-  Extensions for Postgrex
+  Type extensions for Postgrex, for usage in `Postgrex.Types.define/3`.
   """
   def extensions do
     [
@@ -36,6 +36,7 @@ defmodule Paradex do
         ])
       )
   """
+  @doc section: :macros
   defmacro field ~> query do
     quote do
       fragment("? @@@ ?", unquote(field), unquote(query))
@@ -52,12 +53,14 @@ defmodule Paradex do
         order_by: [desc: score()]
       )
   """
+  @doc section: :macros
   defmacro score(key_field) do
     quote do
       fragment("paradedb.score(?) AS pdb_score", unquote(key_field))
     end
   end
 
+  @doc section: :macros
   defmacro score() do
     quote do
       fragment("pdb_score")
@@ -76,12 +79,14 @@ defmodule Paradex do
         order_by: [desc: score_as(^score_alias)]
       )
   """
+  @doc section: :macros
   defmacro score_as(key_field, as) do
     quote do
       fragment("paradedb.score(?) AS ?", unquote(key_field), literal(unquote(as)))
     end
   end
 
+  @doc section: :macros
   defmacro score_as(as) do
     quote do
       fragment("?", literal(unquote(as)))
@@ -97,6 +102,7 @@ defmodule Paradex do
         where: c.transcript ~> "mechanic"
       )
   """
+  @doc section: :macros
   defmacro snippet(field, start_tag \\ "<b>", end_tag \\ "</b>", max_num_chars \\ 150) do
     quote do
       fragment(

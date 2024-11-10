@@ -64,12 +64,13 @@ defmodule Paradex.MixProject do
         "notebooks/hybrid_search.livemd"
       ],
       groups_for_docs: [
-        {:Macros, &(&1[:section] == nil)},
+        {:Macros, &(&1[:section] == :macros)},
         {:"Term-level queries", &(&1[:section] == :term_level_queries)},
         {:"Range queries", &(&1[:section] == :range_queries)},
         {:"Phrase-level queries", &(&1[:section] == :phrase_level_queries)},
         {:"Compound queries", &(&1[:section] == :compound_queries)},
-        {:"Specialized queries", &(&1[:section] == :specialized_queries)}
+        {:"Specialized queries", &(&1[:section] == :specialized_queries)},
+        {:Functions, &(&1[:section] == nil)}
       ]
     ]
   end
