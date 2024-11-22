@@ -1,5 +1,10 @@
 # Changelog
 
+## v0.3.2 (2024-11-22)
+* `::fieldname` casts have been updated to `::paradedb.fieldname`. This change is backwards compatible to `0.10.0`.
+* Test/example migrations have been updated to demo Paradex `0.13.0`'s new index creation syntax.
+* Be mindful that upgrading to ParadeDB `0.13.0` will require you to revise your existing migrations.
+
 ## v0.3.1 (2024-11-10)
 * There are no code changes in this release. `README.md` has been updated to include compatibility with ParadeDB `0.12.x`.
 * Included `CHANGELOG.md` and fixed macro groupings in hexdocs.

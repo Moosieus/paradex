@@ -2,7 +2,7 @@ defmodule Paradex.MixProject do
   use Mix.Project
 
   @name "Paradex"
-  @version "0.3.1"
+  @version "0.3.2"
   @source_url "https://github.com/Moosieus/paradex"
 
   def project do
@@ -48,6 +48,7 @@ defmodule Paradex.MixProject do
       {:pgvector, "~> 0.3.0", optional: true},
       {:ecto, "~> 3.0", optional: true},
       {:ecto_sql, "~> 3.0", only: :test},
+      {:jason, "~> 1.4", only: :test},
       {:ex_doc, ">= 0.0.0", only: :dev, runtime: false},
       {:dialyxir, "~> 1.0", only: [:dev, :test], runtime: false}
     ]

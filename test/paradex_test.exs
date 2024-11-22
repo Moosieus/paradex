@@ -33,7 +33,8 @@ defmodule ParadexTest do
         where: c.id ~> parse_with_field(^field, "bus")
       )
 
-    sql = ~s[SELECT count(*) FROM "calls" AS c0 WHERE (c0."id" @@@ paradedb.parse_with_field($1::fieldname, 'bus', lenient => FALSE, conjunction_mode => TRUE))]
+    sql =
+      ~s[SELECT count(*) FROM "calls" AS c0 WHERE (c0."id" @@@ paradedb.parse_with_field($1::paradedb.fieldname, 'bus', lenient => FALSE, conjunction_mode => TRUE))]
 
     assert_sql(query, sql)
 
@@ -164,7 +165,7 @@ defmodule ParadexTest do
       )
 
     sql =
-      ~s{SELECT c0.\"id\" FROM \"calls\" AS c0 WHERE (c0.\"id\" @@@ paradedb.disjunction_max(ARRAY[paradedb.parse('transcript:bus', lenient => FALSE, conjunction_mode => TRUE),paradedb.range(field => 'call_length'::fieldname, range => int4range(10, NULL, '[)'))], 0.0::float::real))}
+      ~s{SELECT c0.\"id\" FROM \"calls\" AS c0 WHERE (c0.\"id\" @@@ paradedb.disjunction_max(ARRAY[paradedb.parse('transcript:bus', lenient => FALSE, conjunction_mode => TRUE),paradedb.range(field => 'call_length'::paradedb.fieldname, range => int4range(10, NULL, '[)'))], 0.0::float::real))}
 
     assert_sql(query, sql)
 
@@ -196,7 +197,7 @@ defmodule ParadexTest do
       )
 
     sql =
-      ~s{SELECT c0."id" FROM "calls" AS c0 WHERE (c0."id" @@@ paradedb.exists('call_length'::fieldname))}
+      ~s{SELECT c0."id" FROM "calls" AS c0 WHERE (c0."id" @@@ paradedb.exists('call_length'::paradedb.fieldname))}
 
     assert_sql(query, sql)
 
@@ -212,7 +213,7 @@ defmodule ParadexTest do
       )
 
     sql =
-      ~s{SELECT c0."id" FROM "calls" AS c0 WHERE (c0."id" @@@ paradedb.fuzzy_term('transcript'::fieldname, 'bus', 2, TRUE, FALSE))}
+      ~s{SELECT c0."id" FROM "calls" AS c0 WHERE (c0."id" @@@ paradedb.fuzzy_term('transcript'::paradedb.fieldname, 'bus', 2, TRUE, FALSE))}
 
     assert_sql(query, sql)
 
@@ -228,7 +229,7 @@ defmodule ParadexTest do
       )
 
     sql =
-      ~s{SELECT c0."id" FROM "calls" AS c0 WHERE (c0."id" @@@ paradedb.fuzzy_phrase('transcript'::fieldname, 'bus sotp', 1, FALSE, FALSE, FALSE))}
+      ~s{SELECT c0."id" FROM "calls" AS c0 WHERE (c0."id" @@@ paradedb.fuzzy_phrase('transcript'::paradedb.fieldname, 'bus sotp', 1, FALSE, FALSE, FALSE))}
 
     assert_sql(query, sql)
 
@@ -264,7 +265,7 @@ defmodule ParadexTest do
       )
 
     sql =
-      ~s{SELECT c0."id" FROM "calls" AS c0 WHERE (c0."id" @@@ paradedb.parse_with_field('transcript'::fieldname, 'traffic congestion', lenient => TRUE, conjunction_mode => FALSE))}
+      ~s{SELECT c0."id" FROM "calls" AS c0 WHERE (c0."id" @@@ paradedb.parse_with_field('transcript'::paradedb.fieldname, 'traffic congestion', lenient => TRUE, conjunction_mode => FALSE))}
 
     assert_sql(query, sql)
 
@@ -280,7 +281,7 @@ defmodule ParadexTest do
       )
 
     sql =
-      ~s{SELECT c0."id" FROM "calls" AS c0 WHERE (c0."id" @@@ paradedb.phrase('transcript'::fieldname, ARRAY['bus','stop'], 1))}
+      ~s{SELECT c0."id" FROM "calls" AS c0 WHERE (c0."id" @@@ paradedb.phrase('transcript'::paradedb.fieldname, ARRAY['bus','stop'], 1))}
 
     assert_sql(query, sql)
 
@@ -296,7 +297,7 @@ defmodule ParadexTest do
       )
 
     sql =
-      ~s{SELECT c0."id" FROM "calls" AS c0 WHERE (c0."id" @@@ paradedb.phrase_prefix('transcript'::fieldname, ARRAY['en'], 0))}
+      ~s{SELECT c0."id" FROM "calls" AS c0 WHERE (c0."id" @@@ paradedb.phrase_prefix('transcript'::paradedb.fieldname, ARRAY['en'], 0))}
 
     assert_sql(query, sql)
 
@@ -312,7 +313,7 @@ defmodule ParadexTest do
       )
 
     sql =
-      ~s{SELECT c0."id" FROM "calls" AS c0 WHERE (c0."id" @@@ paradedb.range(field => 'call_length'::fieldname, range => int4range(5, NULL, '[)')))}
+      ~s{SELECT c0."id" FROM "calls" AS c0 WHERE (c0."id" @@@ paradedb.range(field => 'call_length'::paradedb.fieldname, range => int4range(5, NULL, '[)')))}
 
     assert_sql(query, sql)
 
@@ -328,7 +329,7 @@ defmodule ParadexTest do
       )
 
     sql =
-      ~s{SELECT c0."id" FROM "calls" AS c0 WHERE (c0."id" @@@ paradedb.range(field => 'call_length'::fieldname, range => int8range(5, NULL, '[)')))}
+      ~s{SELECT c0."id" FROM "calls" AS c0 WHERE (c0."id" @@@ paradedb.range(field => 'call_length'::paradedb.fieldname, range => int8range(5, NULL, '[)')))}
 
     assert_sql(query, sql)
 
@@ -347,7 +348,7 @@ defmodule ParadexTest do
       )
 
     sql =
-      ~s{SELECT c0."id" FROM "calls" AS c0 WHERE (c0."id" @@@ paradedb.range(field => 'start_time'::fieldname, range => daterange($1, $2, '[]')))}
+      ~s{SELECT c0."id" FROM "calls" AS c0 WHERE (c0."id" @@@ paradedb.range(field => 'start_time'::paradedb.fieldname, range => daterange($1, $2, '[]')))}
 
     assert_sql(query, sql)
 
@@ -365,7 +366,7 @@ defmodule ParadexTest do
       )
 
     sql =
-      ~s{SELECT c0."id" FROM "calls" AS c0 WHERE (c0."id" @@@ paradedb.range(field => 'start_time'::fieldname, range => tsrange($1, NULL, '[)')))}
+      ~s{SELECT c0."id" FROM "calls" AS c0 WHERE (c0."id" @@@ paradedb.range(field => 'start_time'::paradedb.fieldname, range => tsrange($1, NULL, '[)')))}
 
     assert_sql(query, sql)
 
@@ -381,7 +382,7 @@ defmodule ParadexTest do
       )
 
     sql =
-      ~s{SELECT c0."id" FROM "calls" AS c0 WHERE (c0."id" @@@ paradedb.regex('transcript'::fieldname, 'bus (stop|route)'))}
+      ~s{SELECT c0."id" FROM "calls" AS c0 WHERE (c0."id" @@@ paradedb.regex('transcript'::paradedb.fieldname, 'bus (stop|route)'))}
 
     assert_sql(query, sql)
 
@@ -397,7 +398,7 @@ defmodule ParadexTest do
       )
 
     sql =
-      ~s{SELECT count(*) FROM "calls" AS c0 WHERE (c0."id" @@@ paradedb.term('talkgroup_num'::fieldname, 7695))}
+      ~s{SELECT count(*) FROM "calls" AS c0 WHERE (c0."id" @@@ paradedb.term('talkgroup_num'::paradedb.fieldname, 7695))}
 
     assert_sql(query, sql)
 
@@ -418,7 +419,7 @@ defmodule ParadexTest do
       )
 
     sql =
-      ~s{SELECT c0."id" FROM "calls" AS c0 WHERE (c0."id" @@@ paradedb.term_set(terms => ARRAY[paradedb.term('talk_group_id'::fieldname, 144),paradedb.term('talk_group_id'::fieldname, 145)]))}
+      ~s{SELECT c0."id" FROM "calls" AS c0 WHERE (c0."id" @@@ paradedb.term_set(terms => ARRAY[paradedb.term('talk_group_id'::paradedb.fieldname, 144),paradedb.term('talk_group_id'::paradedb.fieldname, 145)]))}
 
     assert_sql(query, sql)
 

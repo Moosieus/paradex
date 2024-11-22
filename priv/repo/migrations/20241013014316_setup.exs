@@ -26,59 +26,31 @@ defmodule ParadexApp.Repo.Migrations.Setup do
 
     create index(:calls, :start_time)
 
-    execute("""
-    CALL paradedb.create_bm25(
-      index_name => 'calls_search_idx',
-      table_name => 'calls',
-      key_field => 'id',
-      text_fields => paradedb.field(
-        name => 'transcript',
-        tokenizer => paradedb.tokenizer('stem', language => 'English')
-      ),
-      numeric_fields => paradedb.field('call_length') || paradedb.field('talkgroup_num') || paradedb.field('talk_group_id'),
-      datetime_fields => paradedb.field('start_time') || paradedb.field('stop_time')
+    calls_text_fields =
+      %{
+        transcript: %{
+          tokenizer: %{
+            type: "default",
+            stemmer: "English"
+          }
+        }
+      }
+      |> Jason.encode!()
+
+    create index(
+      :calls,
+      [:id, :transcript, :call_length, :talkgroup_num, :talk_group_id, :start_time, :stop_time],
+      using: "bm25",
+      name: "calls_search_idx",
+      options: "key_field = 'id', text_fields = '#{calls_text_fields}'"
     )
-    """)
 
-    execute("""
-    CALL paradedb.create_bm25(
-      index_name => 'talk_groups_search_idx',
-      schema_name => 'public',
-      table_name => 'talk_groups',
-      key_field => 'id',
-      text_fields => paradedb.field(
-        name => 'description'
-      ) || paradedb.field(
-        name => 'alpha_tag'
-      ) || paradedb.field(
-        name => 'category',
-        tokenizer => paradedb.tokenizer('raw')
-      ) || paradedb.field(
-        name => 'tag',
-        tokenizer => paradedb.tokenizer('raw')
-      ),
-      boolean_fields => paradedb.field('active')
+    create index(
+      :talk_groups,
+      [:id, :description, :alpha_tag, :category, :tag, :active],
+      using: "bm25",
+      name: "talk_groups_search_idx",
+      options: "key_field = 'id'"
     )
-    """)
-  end
-
-  def down() do
-    execute("""
-    CALL paradedb.drop_bm25(
-      index_name => 'talk_groups_search_idx',
-      schema_name => 'public'
-    )
-    """)
-
-    execute("""
-    CALL paradedb.drop_bm25(
-      index_name => 'calls_search_idx',
-      schema_name => 'public'
-    )
-    """)
-
-    drop table(:calls)
-
-    drop table(:talk_groups)
   end
 end

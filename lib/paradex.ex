@@ -132,7 +132,7 @@ defmodule Paradex do
   @doc section: :term_level_queries
   defmacro pdb_exists(field) do
     quote do
-      fragment("paradedb.exists(?::fieldname)", unquote(field))
+      fragment("paradedb.exists(?::paradedb.fieldname)", unquote(field))
     end
   end
 
@@ -148,7 +148,7 @@ defmodule Paradex do
   defmacro fuzzy_term(field, value, distance \\ 2, transpose_cost_one \\ true, prefix \\ false) do
     quote do
       fragment(
-        "paradedb.fuzzy_term(?::fieldname, ?, ?, ?, ?)",
+        "paradedb.fuzzy_term(?::paradedb.fieldname, ?, ?, ?, ?)",
         unquote(field),
         unquote(value),
         unquote(distance),
@@ -165,7 +165,7 @@ defmodule Paradex do
   defmacro range_term(field, value) do
     quote do
       fragment(
-        "paradedb.range_term(?::fieldname, ?)",
+        "paradedb.range_term(?::paradedb.fieldname, ?)",
         unquote(field),
         unquote(value)
       )
@@ -184,7 +184,7 @@ defmodule Paradex do
   defmacro regex(field, pattern) do
     quote do
       fragment(
-        "paradedb.regex(?::fieldname, ?)",
+        "paradedb.regex(?::paradedb.fieldname, ?)",
         unquote(field),
         unquote(pattern)
       )
@@ -203,7 +203,7 @@ defmodule Paradex do
   defmacro term(field, value) do
     quote do
       fragment(
-        "paradedb.term(?::fieldname, ?)",
+        "paradedb.term(?::paradedb.fieldname, ?)",
         unquote(field),
         unquote(value)
       )
@@ -247,7 +247,7 @@ defmodule Paradex do
   defmacro int4range(field, min, max, bounds) do
     quote do
       fragment(
-        "paradedb.range(field => ?::fieldname, range => int4range(?, ?, ?))",
+        "paradedb.range(field => ?::paradedb.fieldname, range => int4range(?, ?, ?))",
         unquote(field),
         unquote(min),
         unquote(max),
@@ -268,7 +268,7 @@ defmodule Paradex do
   defmacro int8range(field, min, max, bounds) do
     quote do
       fragment(
-        "paradedb.range(field => ?::fieldname, range => int8range(?, ?, ?))",
+        "paradedb.range(field => ?::paradedb.fieldname, range => int8range(?, ?, ?))",
         unquote(field),
         unquote(min),
         unquote(max),
@@ -293,7 +293,7 @@ defmodule Paradex do
   defmacro daterange(field, min, max, bounds) do
     quote do
       fragment(
-        "paradedb.range(field => ?::fieldname, range => daterange(?, ?, ?))",
+        "paradedb.range(field => ?::paradedb.fieldname, range => daterange(?, ?, ?))",
         unquote(field),
         unquote(min),
         unquote(max),
@@ -317,7 +317,7 @@ defmodule Paradex do
   defmacro tsrange(field, min, max, bounds) do
     quote do
       fragment(
-        "paradedb.range(field => ?::fieldname, range => tsrange(?, ?, ?))",
+        "paradedb.range(field => ?::paradedb.fieldname, range => tsrange(?, ?, ?))",
         unquote(field),
         unquote(min),
         unquote(max),
@@ -349,7 +349,7 @@ defmodule Paradex do
            ) do
     quote do
       fragment(
-        "paradedb.fuzzy_phrase(?::fieldname, ?, ?, ?, ?, ?)",
+        "paradedb.fuzzy_phrase(?::paradedb.fieldname, ?, ?, ?, ?, ?)",
         unquote(field),
         unquote(value),
         unquote(distance),
@@ -372,7 +372,7 @@ defmodule Paradex do
   defmacro phrase(field, phrases, slop \\ 0) do
     quote do
       fragment(
-        "paradedb.phrase(?::fieldname, ?, ?)",
+        "paradedb.phrase(?::paradedb.fieldname, ?, ?)",
         unquote(field),
         unquote(phrases),
         unquote(slop)
@@ -392,7 +392,7 @@ defmodule Paradex do
   defmacro phrase_prefix(field, phrases, max_expansion \\ 0) do
     quote do
       fragment(
-        "paradedb.phrase_prefix(?::fieldname, ?, ?)",
+        "paradedb.phrase_prefix(?::paradedb.fieldname, ?, ?)",
         unquote(field),
         unquote(phrases),
         unquote(max_expansion)
@@ -561,7 +561,7 @@ defmodule Paradex do
   defmacro parse_with_field(field, query, lenient \\ false, conjunction_mode \\ true) do
     quote do
       fragment(
-        "paradedb.parse_with_field(?::fieldname, ?, lenient => ?, conjunction_mode => ?)",
+        "paradedb.parse_with_field(?::paradedb.fieldname, ?, lenient => ?, conjunction_mode => ?)",
         unquote(field),
         unquote(query),
         unquote(lenient),

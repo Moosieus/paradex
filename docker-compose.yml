@@ -1,5 +1,5 @@
 services:
-  paradedb: # 5432/5432
+  paradedb:
     image: paradedb/paradedb:latest
     environment:
       - POSTGRES_USER=postgres

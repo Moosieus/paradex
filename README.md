@@ -1,6 +1,6 @@
 # Paradex
 
-Ecto fragments for [ParadeDB](https://www.paradedb.com/) versions `0.11.x - 0.12.x`.
+Ecto fragments for [ParadeDB](https://www.paradedb.com/) versions `0.11.x - 0.13.x`.
 
 ## Installation
 
@@ -10,7 +10,7 @@ Add `:paradex` to your list of dependencies in `mix.exs`:
 ```elixir
 def deps do
   [
-    {:paradex, "~> 0.3.1"}
+    {:paradex, "~> 0.3.2"}
   ]
 end
 ```
