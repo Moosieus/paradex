@@ -62,6 +62,7 @@ defmodule Paradex.MixProject do
       source_url: @source_url,
       extras: [
         "README.md",
+        "CHANGELOG.md",
         "notebooks/hybrid_search.livemd"
       ],
       groups_for_docs: [
