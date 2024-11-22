@@ -58,7 +58,7 @@ defmodule Paradex.MixProject do
     [
       name: @name,
       main: "readme",
-      source_ref: "main",
+      source_ref: "v#{@version}",
       source_url: @source_url,
       extras: [
         "README.md",
