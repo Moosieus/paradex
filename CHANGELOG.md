@@ -10,7 +10,7 @@
 * Included `CHANGELOG.md` and fixed macro groupings in hexdocs.
 
 ## v0.3.0 (2024-11-05)
-* Added `Paradex.extensions/1` which presently consists of `[ Paradex.FieldName ]`.
+* Added `Paradex.extensions/0` which presently consists of `[ Paradex.FieldName ]`.
   * This allows Postgrex to parameterize field names in ParadeDB query objects, solving issue [#4](https://github.com/Moosieus/paradex/issues/4).
 * Updated docs to include instructions for the above.
 
