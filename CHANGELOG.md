@@ -1,5 +1,8 @@
 # Changelog
 
+## v0.3.3 (2024-01-14)
+* There are no code changes in this release. `README.md` has been updated to include compatibility with ParadeDB `0.14.x`.
+
 ## v0.3.2 (2024-11-22)
 * `::fieldname` casts have been updated to `::paradedb.fieldname`. This change is backwards compatible to `0.11.0`.
 * Test/example migrations have been updated to demo Paradex `0.13.0`'s new index creation syntax.
