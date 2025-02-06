@@ -2,7 +2,7 @@ defmodule Paradex.MixProject do
   use Mix.Project
 
   @name "Paradex"
-  @version "0.3.3"
+  @version "0.4.0"
   @source_url "https://github.com/Moosieus/paradex"
 
   def project do
@@ -67,6 +67,7 @@ defmodule Paradex.MixProject do
       ],
       groups_for_docs: [
         {:Macros, &(&1[:section] == :macros)},
+        {:"Full Text queries", &(&1[:section] == :full_text_queries)},
         {:"Term-level queries", &(&1[:section] == :term_level_queries)},
         {:"Range queries", &(&1[:section] == :range_queries)},
         {:"Phrase-level queries", &(&1[:section] == :phrase_level_queries)},

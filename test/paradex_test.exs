@@ -220,16 +220,17 @@ defmodule ParadexTest do
     assert Repo.all(query), "expected to execute successfully"
   end
 
-  test "fuzzy_phrase/6 generates a query" do
+  test "match/6 generates a query" do
     query =
       from(
         c in Call,
         select: c.id,
-        where: c.id ~> fuzzy_phrase("transcript", "bus sotp", 1, false, false, false)
+        where: c.id ~> match("transcript", "bus sotp", 1, false)
       )
 
     sql =
-      ~s{SELECT c0."id" FROM "calls" AS c0 WHERE (c0."id" @@@ paradedb.fuzzy_phrase('transcript'::paradedb.fieldname, 'bus sotp', 1, FALSE, FALSE, FALSE))}
+      ~s{SELECT c0."id" FROM "calls" AS c0 WHERE (c0."id" @@@ paradedb.match('transcript'::paradedb.fieldname, 'bus sotp', distance => 1, transposition_cost_one => FALSE, prefix => FALSE, conjunction_mode => FALSE))}
+
 
     assert_sql(query, sql)
 

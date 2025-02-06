@@ -115,6 +115,40 @@ defmodule Paradex do
     end
   end
 
+  #######################
+  ## Full Text Queries ##
+  #######################
+
+  @doc """
+  Macro for [paradedb.match](https://docs.paradedb.com/documentation/advanced/full-text/match).
+
+      from(
+        c in Call,
+        where: c.id ~> match("transcript", "bus stop")
+      )
+  """
+  @doc section: :full_text_queries
+  defmacro match(
+             field,
+             value,
+             distance \\ 0,
+             transposition_cost_one \\ true,
+             prefix \\ false,
+             conjunction_mode \\ false
+           ) do
+    quote do
+      fragment(
+        "paradedb.match(?::paradedb.fieldname, ?, distance => ?, transposition_cost_one => ?, prefix => ?, conjunction_mode => ?)",
+        unquote(field),
+        unquote(value),
+        unquote(distance),
+        unquote(transposition_cost_one),
+        unquote(prefix),
+        unquote(conjunction_mode)
+      )
+    end
+  end
+
   ########################
   ## Term-Level Queries ##
   ########################
@@ -329,36 +363,6 @@ defmodule Paradex do
   ##########################
   ## Phrase-Level Queries ##
   ##########################
-
-  @doc """
-  Macro for [paradedb.fuzzy_phrase](https://docs.paradedb.com/documentation/advanced/phrase/fuzzy_phrase).
-
-      from(
-        c in Call,
-        where: c.id ~> fuzzy_phrase("transcript", "bus sotp")
-      )
-  """
-  @doc section: :phrase_level_queries
-  defmacro fuzzy_phrase(
-             field,
-             value,
-             distance \\ 2,
-             transpose_cost_one \\ true,
-             prefix \\ false,
-             match_all_terms \\ false
-           ) do
-    quote do
-      fragment(
-        "paradedb.fuzzy_phrase(?::paradedb.fieldname, ?, ?, ?, ?, ?)",
-        unquote(field),
-        unquote(value),
-        unquote(distance),
-        unquote(transpose_cost_one),
-        unquote(prefix),
-        unquote(match_all_terms)
-      )
-    end
-  end
 
   @doc """
   Macro for [paradedb.phrase](https://docs.paradedb.com/documentation/advanced/phrase/phrase).

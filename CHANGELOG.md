@@ -1,5 +1,10 @@
 # Changelog
 
+## v0.4.0 (2025-02-06)
+* ParadeDB `0.15.0` removes `paradedb.fuzzy_phrase` in favor of the new `paradedb.match`. Subsequently `fuzzy_phrase/6` has been removed from Paradex and replaced with `match/6`.
+* `match/6` currently does not support the custom tokenizer option via the `tokenizer` parameter. Consequently the query will always be tokenized the same way as the field was at index time.
+* A version compatability table has been added to `README.md`.
+
 ## v0.3.3 (2024-01-14)
 * There are no code changes in this release. `README.md` has been updated to include compatibility with ParadeDB `0.14.x`.
 
